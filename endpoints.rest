@@ -3,7 +3,7 @@ POST http://localhost:3000/shopping-lists
 Content-Type: application/json
 
 {
-  "name": "Walmart"
+"Pubbliixx"
 }
 
 ### Get all shopping lists
@@ -17,7 +17,7 @@ PUT http://localhost:3000/shopping-lists/65c2adfea1e3dca7a0b61f95
 Content-Type: application/json
 
 {
-  "name": "Weekly Groceries"
+  "name": "Groceries"
 }
 
 ### Delete a shopping list by id

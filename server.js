@@ -12,8 +12,6 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
-
 const ShoppingList = require('./models/ShoppingList');
 
 // Create a new shopping list
