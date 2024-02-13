@@ -73,6 +73,66 @@ app.delete('/shopping-lists/:id', async (req, res) => {
   }
 });
 
+// Add an item to a shopping list
+
+app.post('/shopping-lists/:id/items', async (req, res) => {
+  const { name, quantity } = req.body;
+  try {
+    const list = await ShoppingList.findById(req.params.id);
+    if (!list) return res.status(404).send('Shopping list not found.');
+    
+    const newItem = { name, quantity, done: false };
+    list.items.push(newItem);
+    list.updatedAt = Date.now();
+    await list.save();
+    
+    res.status(201).send(newItem);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+// Update an item in a shopping list by index in the items array
+
+app.put('/shopping-lists/:listId/items/:itemId', async (req, res) => {
+  try {
+    const list = await ShoppingList.findById(req.params.listId);
+    if (!list) return res.status(404).send('Shopping list not found.');
+
+    const item = list.items.id(req.params.itemId);
+    if (!item) return res.status(404).send('Item not found.');
+
+    item.name = req.body.name || item.name;
+    item.quantity = req.body.quantity || item.quantity;
+    item.done = req.body.done !== undefined ? req.body.done : item.done;
+    item.updatedAt = Date.now();
+
+    await list.save();
+    res.send(item);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+// Delete an item from a shopping list by index in the items array
+
+app.delete('/shopping-lists/:listId/items/:itemId', async (req, res) => {
+  try {
+    const list = await ShoppingList.findById(req.params.listId);
+    if (!list) return res.status(404).send('Shopping list not found.');
+
+    const item = list.items.id(req.params.itemId);
+    if (!item) return res.status(404).send('Item not found.');
+
+    item.remove();
+    await list.save();
+    res.send({ message: 'Item deleted successfully.' });
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
