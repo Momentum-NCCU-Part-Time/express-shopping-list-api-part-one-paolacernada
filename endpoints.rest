@@ -1,24 +1,48 @@
+@baseURL = http://localhost:3000
+
 ### Create a new shopping list
-POST http://localhost:3000/shopping-lists
+POST {{baseURL}}/shopping-lists
 Content-Type: application/json
 
 {
-  "name": "Sally"
+  "name": "Target List"
 }
 
 ### Get all shopping lists
-GET http://localhost:3000/shopping-lists
+GET {{baseURL}}/shopping-lists
 
-### Get a single shopping list by id
-GET http://localhost:3000/shopping-lists/65c2adfea1e3dca7a0b61f95
+### Get a single shopping list by ID
+GET {{baseURL}}/shopping-lists/65cbec6d03c0ae28427a72f2
 
-### Update a shopping list by id
-PUT http://localhost:3000/shopping-lists/65c2adfea1e3dca7a0b61f95
+### Update a shopping list by ID
+PUT {{baseURL}}/shopping-lists/65cbec6d03c0ae28427a72f2
 Content-Type: application/json
 
 {
-  "name": "Groceries"
+  "name": "Updated Target List"
 }
 
-### Delete a shopping list by id
-DELETE http://localhost:3000/shopping-lists/65c2af85a1e3dca7a0b61fa6
+### Delete a shopping list by ID
+DELETE {{baseURL}}/shopping-lists/65c2adfea1e3dca7a0b61f95
+
+### Add an item to a shopping list
+POST {{baseURL}}/shopping-lists/65cbec6503c0ae28427a72f0/items
+Content-Type: application/json
+
+{
+  "name": "Apples",
+  "quantity": 5
+}
+
+### Update an item in a shopping list
+PUT {{baseURL}}/shopping-lists/65cbec6503c0ae28427a72f0/items/65cbecd703c0ae28427a72fb
+Content-Type: application/json
+
+{
+  "name": "Bananas",
+  "quantity": 3,
+  "done": true
+}
+
+### Delete an item from a shopping list
+DELETE {{baseURL}}/shopping-lists/65cbec6503c0ae28427a72f0/items/65cbecd703c0ae28427a72fb

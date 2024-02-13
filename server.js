@@ -119,13 +119,14 @@ app.put('/shopping-lists/:listId/items/:itemId', async (req, res) => {
 app.delete('/shopping-lists/:listId/items/:itemId', async (req, res) => {
   try {
     const list = await ShoppingList.findById(req.params.listId);
-    if (!list) return res.status(404).send('Shopping list not found.');
+    if (!list) {
+      return res.status(404).send('Shopping list not found.');
+    }
 
-    const item = list.items.id(req.params.itemId);
-    if (!item) return res.status(404).send('Item not found.');
+    list.items.pull({ _id: req.params.itemId });
 
-    item.remove();
     await list.save();
+
     res.send({ message: 'Item deleted successfully.' });
   } catch (err) {
     res.status(400).send(err.message);
